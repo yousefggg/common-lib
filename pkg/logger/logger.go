@@ -1,43 +1,58 @@
 package logger
 
 import (
-	"log/slog"
 	"os"
 	"strings"
+
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
-var log *slog.Logger
 
-func Init(level string) {
-	var slogLevel slog.Level
-	switch strings.ToLower(level) {
-	case "debug":
-		slogLevel = slog.LevelDebug
-	case "warn":
-		slogLevel = slog.LevelWarn
-	case "error":
-		slogLevel = slog.LevelError
-	default:
-		slogLevel = slog.LevelInfo
-	}
+var log *zap.SugaredLogger
 
-	handler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level: slogLevel,
-	})
-	log = slog.New(handler)
+func init() {
+	log = zap.NewNop().Sugar()
 }
 
+func Init(level string) {
+	var zapLevel zapcore.Level
+	switch strings.ToLower(level) {
+	case "debug":
+		zapLevel = zap.DebugLevel
+	case "warn":
+		zapLevel = zap.WarnLevel
+	case "error":
+		zapLevel = zap.ErrorLevel
+	default:
+		zapLevel = zap.InfoLevel
+	}
+
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
+
+	core := zapcore.NewCore(
+		zapcore.NewJSONEncoder(encoderConfig),
+		zapcore.AddSync(os.Stdout),
+		zapLevel,
+	)
+
+	zapLogger := zap.New(core, zap.AddCaller(), zap.AddStacktrace(zap.ErrorLevel))
+	
+	log = zapLogger.Sugar()
+}
 func Info(msg string, args ...any) {
-	log.Info(msg, args...)
+	log.Infow(msg, args...)
 }
 
 func Error(msg string, args ...any) {
-	log.Error(msg, args...)
+	log.Errorw(msg, args...)
 }
 
 func Debug(msg string, args ...any) {
-	log.Debug(msg, args...)
+	log.Debugw(msg, args...)
 }
 
 func Warn(msg string, args ...any) {
-	log.Warn(msg, args...)
+	log.Warnw(msg, args...)
 }
