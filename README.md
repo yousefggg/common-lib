@@ -6,9 +6,6 @@
 
 Для использования библиотеки в своем микросервисе добавьте её через `go get`:
 
-```bash
-go get [github.com/yousefggg/common-lib](https://github.com/yousefggg/common-lib)
-
 Основные модули
 1. Config (pkg/config)
 Обеспечивает строго типизированную загрузку настроек из переменных окружения (ENV). Поддерживает валидацию обязательных полей и автоматическую конвертацию типов данных.
@@ -31,30 +28,17 @@ go get [github.com/yousefggg/common-lib](https://github.com/yousefggg/common-lib
 
 Гибкую настройку лимитов подключений (MaxOpenConns, MaxIdleConns).
 
-Переменные окружения (Environment Variables)
-Для корректной работы модулей config и database необходимо задать следующие ENV-переменные:
-Переменная,Тип,Описание
-APP_PORT,string,Порт приложения
-APP_ENVIRONMENT,string,Окружение (dev/prod)
-APP_LOG_LEVEL,string,Уровень логов (debug/info/warn/error)
-DATABASE_URL,string,DSN: postgres://user:pass@host:port/db?sslmode=disable
-DATABASE_MAX_OPEN_CONNS,int,Максимальное кол-во открытых соединений
-DATABASE_MAX_IDLE_CONNS,int,Максимальное кол-во соединений в простое
-DATABASE_CONN_TIMEOUT,duration,"Таймаут подключения (например, 5s)"
-AUTH_JWT_SECRET,string,Секретный ключ для подписи токенов
-AUTH_TOKEN_TIME,duration,"Время жизни токена (например, 24h)"
-
-Зависимости (Dependencies)
+## Зависимости (Dependencies)
 Согласно go.mod, библиотека использует:
 
 Core: go 1.25.7
 
-UUID: github.com/google/uuid v1.6.0
+UUID: `github.com/google/uuid v1.6.0`
 
-Postgres Driver: github.com/lib/pq v1.12.3
+Postgres Driver: `github.com/lib/pq v1.12.3`
 
-JWT: github.com/golang-jwt/jwt/v5 v5.3.1
+JWT: `github.com/golang-jwt/jwt/v5 v5.3.1`
 
-Logging: go.uber.org/zap v1.28.0
+Logging: `go.uber.org/zap v1.28.0`
 
-Установка через go get github.com/yousefggg/common-lib
+Установка через `go get github.com/yousefggg/common-lib`
