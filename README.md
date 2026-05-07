@@ -29,8 +29,6 @@
 Гибкую настройку лимитов подключений (MaxOpenConns, MaxIdleConns).
 
 ## Зависимости (Dependencies)
-Согласно go.mod, библиотека использует:
-
 Core: go 1.25.7
 
 UUID: `github.com/google/uuid v1.6.0`
