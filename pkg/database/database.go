@@ -29,7 +29,6 @@ func InitDB(ctx context.Context, dsn string) (*pgxpool.Pool, error) {
 }
 
 func runMigrations(dsn string) error {
-	// golang-migrate заберет файлы из папки migrations в корне запускаемого сервиса
 	m, err := migrate.New("file://migrations", dsn)
 	if err != nil {
 		return err
